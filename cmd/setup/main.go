@@ -68,7 +68,7 @@ func createTables(ctx context.Context, pool *pgxpool.Pool) error {
         id SERIAL PRIMARY KEY,
         title TEXT NOT NULL,
         author_id INTEGER NOT NULL,
-        published_at TIMESTAMP NOT NULL,
+        published_at BIGINT NOT NULL,
         FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE
     );
     `
@@ -77,7 +77,7 @@ func createTables(ctx context.Context, pool *pgxpool.Pool) error {
     CREATE TABLE IF NOT EXISTS borrows (
         id SERIAL PRIMARY KEY,
         book_id INTEGER NOT NULL,
-        borrowed_at TIMESTAMP NOT NULL,
+        borrowed_at BIGINT NOT NULL,
         FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
     );
     `
