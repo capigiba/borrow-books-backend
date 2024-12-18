@@ -1,4 +1,5 @@
-```.
+```bash
+.
 ├── Makefile
 ├── cmd
 │   ├── migration
@@ -75,4 +76,5 @@
 │   │   └── logger.go
 │   └── reason
 │       └── reason.go
-└── scripts```
+└── scripts
+```
