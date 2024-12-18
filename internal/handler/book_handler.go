@@ -2,6 +2,8 @@ package handler
 
 import (
 	"borrow_book/internal/service"
+	"borrow_book/pkg/request"
+	"borrow_book/pkg/response"
 	"net/http"
 	"strconv"
 	"time"
@@ -28,7 +30,13 @@ func (h *BookHandler) ListBooks(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, books)
+	// Convert each Book to BookResponse
+	resp := make([]response.BookResponse, len(books))
+	for i, b := range books {
+		resp[i] = convertToResponse(b)
+	}
+
+	c.JSON(http.StatusOK, resp)
 }
 
 func (h *BookHandler) GetBook(c *gin.Context) {
@@ -50,26 +58,33 @@ func (h *BookHandler) GetBook(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, book)
+	resp := convertToResponse(*book)
+	c.JSON(http.StatusOK, resp)
 }
 
 func (h *BookHandler) CreateBook(c *gin.Context) {
-	var req struct {
-		Title       string    `json:"title"`
-		AuthorID    int       `json:"author_id"`
-		PublishedAt time.Time `json:"published_at"`
-	}
+	var req request.CreateBookRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	book, err := h.svc.CreateBook(c.Request.Context(), req.Title, req.AuthorID, req.PublishedAt)
+	// Parse the date string to UNIX timestamp
+	tm, err := time.Parse("2006-01-02", req.PublishedAt)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid published_at format"})
+		return
+	}
+	timestamp := tm.Unix()
+
+	book, err := h.svc.CreateBook(c.Request.Context(), req.Title, req.AuthorID, timestamp)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusCreated, book)
+
+	resp := convertToResponse(*book)
+	c.JSON(http.StatusCreated, resp)
 }
 
 func (h *BookHandler) UpdateBook(c *gin.Context) {
@@ -80,22 +95,28 @@ func (h *BookHandler) UpdateBook(c *gin.Context) {
 		return
 	}
 
-	var req struct {
-		Title       string    `json:"title"`
-		AuthorID    int       `json:"author_id"`
-		PublishedAt time.Time `json:"published_at"`
-	}
+	var req request.UpdateBookRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	book, err := h.svc.UpdateBook(c.Request.Context(), id, req.Title, req.AuthorID, req.PublishedAt)
+	// Parse the date string to UNIX timestamp
+	tm, err := time.Parse("2006-01-02", req.PublishedAt)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid published_at format"})
+		return
+	}
+	timestamp := tm.Unix()
+
+	book, err := h.svc.UpdateBook(c.Request.Context(), id, req.Title, req.AuthorID, timestamp)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, book)
+
+	resp := convertToResponse(*book)
+	c.JSON(http.StatusOK, resp)
 }
 
 func (h *BookHandler) DeleteBook(c *gin.Context) {

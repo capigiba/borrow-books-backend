@@ -6,14 +6,13 @@ import (
 	"borrow_book/internal/repository"
 	"context"
 	"fmt"
-	"time"
 )
 
 type BookService interface {
 	ListBooks(ctx context.Context, filters, sorts []string, fields string) ([]model.Book, error)
 	GetBook(ctx context.Context, id int) (*model.Book, error)
-	CreateBook(ctx context.Context, title string, authorID int, publishedAt time.Time) (*model.Book, error)
-	UpdateBook(ctx context.Context, id int, title string, authorID int, publishedAt time.Time) (*model.Book, error)
+	CreateBook(ctx context.Context, title string, authorID int, publishedAt int64) (*model.Book, error)
+	UpdateBook(ctx context.Context, id int, title string, authorID int, publishedAt int64) (*model.Book, error)
 	DeleteBook(ctx context.Context, id int) error
 }
 
@@ -48,7 +47,7 @@ func (s *bookService) GetBook(ctx context.Context, id int) (*model.Book, error) 
 	return s.repo.GetBookByID(ctx, id)
 }
 
-func (s *bookService) CreateBook(ctx context.Context, title string, authorID int, publishedAt time.Time) (*model.Book, error) {
+func (s *bookService) CreateBook(ctx context.Context, title string, authorID int, publishedAt int64) (*model.Book, error) {
 	newBook := model.Book{
 		Title:       title,
 		AuthorID:    authorID,
@@ -62,7 +61,7 @@ func (s *bookService) CreateBook(ctx context.Context, title string, authorID int
 	return &newBook, nil
 }
 
-func (s *bookService) UpdateBook(ctx context.Context, id int, title string, authorID int, publishedAt time.Time) (*model.Book, error) {
+func (s *bookService) UpdateBook(ctx context.Context, id int, title string, authorID int, publishedAt int64) (*model.Book, error) {
 	// Optionally get existing book first for validation
 	b, err := s.GetBook(ctx, id)
 	if err != nil {
