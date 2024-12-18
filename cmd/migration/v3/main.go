@@ -13,7 +13,7 @@ import (
 	"borrow_book/internal/config"
 	"borrow_book/internal/domain/model"
 	"borrow_book/internal/initialize"
-	"borrow_book/internal/repository" // Import your repository package
+	"borrow_book/internal/repository"
 	"borrow_book/pkg/logger"
 
 	_ "github.com/lib/pq"
