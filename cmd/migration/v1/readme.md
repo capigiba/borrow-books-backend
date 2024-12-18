@@ -1,0 +1,1 @@
+This migration v1 convert the data publishAt in table Books from time.Time to int64
