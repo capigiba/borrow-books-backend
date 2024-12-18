@@ -7,23 +7,20 @@ import (
 )
 
 type AppRouter struct {
-	bookController      *handler.BookHandler
-	extraBookController *handler.ExtraHandler
-	authorController    *handler.AuthorHandler
-	swaggerRouter       *SwaggerRouter
+	bookController   *handler.BookHandler
+	authorController *handler.AuthorHandler
+	swaggerRouter    *SwaggerRouter
 }
 
 func NewAppRouter(
 	bookController *handler.BookHandler,
-	extraBookController *handler.ExtraHandler,
 	authorController *handler.AuthorHandler,
 	swaggerRouter *SwaggerRouter,
 ) *AppRouter {
 	return &AppRouter{
-		bookController:      bookController,
-		extraBookController: extraBookController,
-		authorController:    authorController,
-		swaggerRouter:       swaggerRouter,
+		bookController:   bookController,
+		authorController: authorController,
+		swaggerRouter:    swaggerRouter,
 	}
 }
 
@@ -46,13 +43,6 @@ func (a *AppRouter) RegisterAuthorRoutes(r *gin.RouterGroup) {
 		public.POST("", a.authorController.CreateAuthor)
 		public.PUT("/:id", a.authorController.UpdateAuthor)
 		public.DELETE("/:id", a.authorController.DeleteAuthor)
-	}
-}
-
-func (a *AppRouter) RegisterExtraBookRoutes(r *gin.RouterGroup) {
-	public := r.Group("/extra-query")
-	{
-		public.POST("/raw", a.extraBookController.ExecuteRawQuery)
 	}
 }
 

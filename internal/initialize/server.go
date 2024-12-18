@@ -39,7 +39,6 @@ func InitServer(config *config.Config, appRouter *router.AppRouter) *http.Server
 func registerAPIRoutes(group *gin.RouterGroup, appRouter *router.AppRouter) {
 	appRouter.RegisterBookRoutes(group)
 	appRouter.RegisterAuthorRoutes(group)
-	appRouter.RegisterExtraBookRoutes(group)
 }
 
 func registerSwaggerRoutes(router *gin.Engine, appRouter *router.AppRouter) {

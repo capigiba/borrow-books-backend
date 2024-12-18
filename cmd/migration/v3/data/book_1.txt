@@ -1,0 +1,20 @@
+1, Harry Potter and the Philosopher's Stone, J.K. Rowling, 1997
+2, Harry Potter and the Chamber of Secrets, J.K. Rowling, 1998
+3, A Game of Thrones, George R.R. Martin, 1996
+4, A Clash of Kings, George R.R. Martin, 1998
+5, The Hobbit, J.R.R. Tolkien, 1937
+6, The Lord of the Rings: The Fellowship of the Ring, J.R.R. Tolkien, 1954
+7, Murder on the Orient Express, Agatha Christie, 1934
+8, The Da Vinci Code, Dan Brown, 2003
+9, Angels & Demons, Dan Brown, 2000
+10, The Shining, Stephen King, 1977
+11, 1Q84, Haruki Murakami, 2009
+12, Norwegian Wood, Haruki Murakami, 1987
+13, The Alchemist, Paulo Coelho, 1988
+14, Pride and Prejudice, Jane Austen, 1813
+15, Great Expectations, Charles Dickens, 1861
+16, War and Peace, Leo Tolstoy, 1869
+17, One Hundred Years of Solitude, Gabriel Garcia Marquez, 1967
+18, The Old Man and the Sea, Ernest Hemingway, 1952
+19, Adventures of Huckleberry Finn, Mark Twain, 1884
+20, Dracula, Bram Stoker, 1897

@@ -13,6 +13,7 @@ import (
 type BookRepository interface {
 	GetAllBooks(ctx context.Context, opts query.QueryOptions) ([]model.Book, error)
 	GetBookByID(ctx context.Context, id int) (*model.Book, error)
+	GetBookByTitleAndAuthorID(ctx context.Context, title string, authorID int) (*model.Book, error)
 	CreateBook(ctx context.Context, b model.Book) (int, error)
 	UpdateBook(ctx context.Context, b model.Book) error
 	DeleteBook(ctx context.Context, id int) error
@@ -36,6 +37,15 @@ func (r *bookRepository) GetAllBooks(ctx context.Context, opts query.QueryOption
 func (r *bookRepository) GetBookByID(ctx context.Context, id int) (*model.Book, error) {
 	var book model.Book
 	err := r.db.GetContext(ctx, &book, "SELECT id, title, author_id, published_at FROM books WHERE id=$1", id)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	return &book, err
+}
+
+func (r *bookRepository) GetBookByTitleAndAuthorID(ctx context.Context, title string, authorID int) (*model.Book, error) {
+	var book model.Book
+	err := r.db.GetContext(ctx, &book, "SELECT id, title, author_id, published_at FROM books WHERE title=$1 AND author_id=$2", title, authorID)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}

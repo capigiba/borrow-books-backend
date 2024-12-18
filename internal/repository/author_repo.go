@@ -14,6 +14,7 @@ import (
 type AuthorRepository interface {
 	GetAllAuthors(ctx context.Context, opts query.QueryOptions) ([]model.Author, error)
 	GetAuthorByID(ctx context.Context, id int) (*model.Author, error)
+	GetAuthorByName(ctx context.Context, name string) (*model.Author, error)
 	CreateAuthor(ctx context.Context, a model.Author) (int, error)
 	UpdateAuthor(ctx context.Context, a model.Author) error
 	DeleteAuthor(ctx context.Context, id int) error
@@ -39,6 +40,15 @@ func (r *authorRepository) GetAllAuthors(ctx context.Context, opts query.QueryOp
 func (r *authorRepository) GetAuthorByID(ctx context.Context, id int) (*model.Author, error) {
 	var author model.Author
 	err := r.db.GetContext(ctx, &author, "SELECT id, name FROM authors WHERE id=$1", id)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	return &author, err
+}
+
+func (r *authorRepository) GetAuthorByName(ctx context.Context, name string) (*model.Author, error) {
+	var author model.Author
+	err := r.db.GetContext(ctx, &author, "SELECT id, name FROM authors WHERE name=$1", name)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}

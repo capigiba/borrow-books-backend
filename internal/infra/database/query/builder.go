@@ -27,6 +27,8 @@ func BuildSelectQuery(tableName string, opts QueryOptions) (string, []interface{
 		switch fil.Operator {
 		case "eq":
 			op = "="
+		case "neq":
+			op = "!="
 		case "ilike":
 			op = "ILIKE"
 		case "gt":

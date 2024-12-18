@@ -20,13 +20,10 @@ func InitializeApp(db *sqlx.DB) (*router.AppRouter, error) {
 	bookRepository := repository.NewBookRepository(db)
 	bookService := service.NewBookService(bookRepository)
 	bookHandler := handler.NewBookHandler(bookService)
-	extraRepository := repository.NewExtraRepository(db)
-	extraService := service.NewExtraService(extraRepository)
-	extraHandler := handler.NewExtraHandler(extraService)
 	authorRepository := repository.NewAuthorRepository(db)
 	authorService := service.NewAuthorService(authorRepository)
 	authorHandler := handler.NewAuthorHandler(authorService)
 	swaggerRouter := router.NewSwaggerRouter()
-	appRouter := router.NewAppRouter(bookHandler, extraHandler, authorHandler, swaggerRouter)
+	appRouter := router.NewAppRouter(bookHandler, authorHandler, swaggerRouter)
 	return appRouter, nil
 }

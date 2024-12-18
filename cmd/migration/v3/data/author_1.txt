@@ -1,0 +1,20 @@
+1, J.K. Rowling
+2, George R.R. Martin
+3, J.R.R. Tolkien
+4, Agatha Christie
+5, Dan Brown
+6, Stephen King
+7, Haruki Murakami
+8, Paulo Coelho
+9, Jane Austen
+10, Charles Dickens
+11, Leo Tolstoy
+12, Gabriel Garcia Marquez
+13, Ernest Hemingway
+14, Mark Twain
+15, Franz Kafka
+16, F. Scott Fitzgerald
+17, Oscar Wilde
+18, Arthur Conan Doyle
+19, Mary Shelley
+20, Bram Stoker
