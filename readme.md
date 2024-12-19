@@ -5,6 +5,7 @@
 │   │   ├── v1
 │   │   ├── v2
 │   │   └── v3
+│   │       └── data
 │   ├── server
 │   └── setup
 ├── docs
@@ -12,7 +13,9 @@
 ├── internal
 │   ├── config
 │   ├── domain
-│   │   └── model
+│   │   ├── model
+│   │   ├── request
+│   │   └── response
 │   ├── handler
 │   ├── infra
 │   │   ├── database
@@ -27,8 +30,6 @@
 ├── pkg
 │   ├── localization
 │   ├── logger
-│   ├── reason
-│   ├── request
-│   └── response
+│   └── reason
 └── scripts
 ```
