@@ -1,4 +1,413 @@
+definitions:
+  request.CreateAuthorRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  request.CreateBookRequest:
+    properties:
+      author_id:
+        type: integer
+      published_at:
+        description: 'Expected format: "YYYY-MM-DD"'
+        type: string
+      title:
+        type: string
+    type: object
+  request.UpdateAuthorRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  request.UpdateBookRequest:
+    properties:
+      author_id:
+        type: integer
+      published_at:
+        description: 'Expected format: "YYYY-MM-DD"'
+        type: string
+      title:
+        type: string
+    type: object
+  response.AuthorResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  response.BookResponse:
+    properties:
+      author_id:
+        type: integer
+      id:
+        type: integer
+      published_at:
+        description: 'Format: "YYYY-MM-DD"'
+        type: string
+      title:
+        type: string
+    type: object
+  response.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /authors:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of authors with optional filters, sorts, and selected
+        fields
+      parameters:
+      - collectionFormat: csv
+        description: Filter conditions
+        in: query
+        items:
+          type: string
+        name: filter
+        type: array
+      - collectionFormat: csv
+        description: Sort conditions
+        in: query
+        items:
+          type: string
+        name: sort
+        type: array
+      - description: Fields to select
+        in: query
+        name: fields
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.AuthorResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: List authors
+      tags:
+      - Authors
+    post:
+      consumes:
+      - application/json
+      description: Add a new author to the system
+      parameters:
+      - description: Author to create
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateAuthorRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.AuthorResponse'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new author
+      tags:
+      - Authors
+  /authors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove an author from the system using their ID
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Author not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete an author
+      tags:
+      - Authors
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a single author using their unique ID
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AuthorResponse'
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get an author by ID
+      tags:
+      - Authors
+    put:
+      consumes:
+      - application/json
+      description: Modify the details of an existing author using their ID
+      parameters:
+      - description: Author ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Author data to update
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateAuthorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AuthorResponse'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Author not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update an existing author
+      tags:
+      - Authors
+  /books:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of books with optional filters, sorts, and selected
+        fields
+      parameters:
+      - collectionFormat: csv
+        description: Filter conditions
+        in: query
+        items:
+          type: string
+        name: filter
+        type: array
+      - collectionFormat: csv
+        description: Sort conditions
+        in: query
+        items:
+          type: string
+        name: sort
+        type: array
+      - description: Fields to select
+        in: query
+        name: fields
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.BookResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: List books
+      tags:
+      - Books
+    post:
+      consumes:
+      - application/json
+      description: Add a new book to the system
+      parameters:
+      - description: Book to create
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.BookResponse'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new book
+      tags:
+      - Books
+  /books/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a book from the system using its ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Book not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a book
+      tags:
+      - Books
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a single book using its unique ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.BookResponse'
+        "400":
+          description: Invalid ID
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get a book by ID
+      tags:
+      - Books
+    put:
+      consumes:
+      - application/json
+      description: Modify the details of an existing book using its ID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Book data to update
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.BookResponse'
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Book not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update an existing book
+      tags:
+      - Books
 swagger: "2.0"

@@ -2,7 +2,7 @@ package handler
 
 import (
 	"borrow_book/internal/domain/model"
-	"borrow_book/pkg/response"
+	"borrow_book/internal/domain/response"
 	"time"
 )
 
