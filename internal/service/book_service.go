@@ -62,7 +62,6 @@ func (s *bookService) CreateBook(ctx context.Context, title string, authorID int
 }
 
 func (s *bookService) UpdateBook(ctx context.Context, id int, title string, authorID int, publishedAt int64) (*model.Book, error) {
-	// Optionally get existing book first for validation
 	b, err := s.GetBook(ctx, id)
 	if err != nil {
 		return nil, err
@@ -83,6 +82,12 @@ func (s *bookService) UpdateBook(ctx context.Context, id int, title string, auth
 }
 
 func (s *bookService) DeleteBook(ctx context.Context, id int) error {
-	// Optionally check if it exists
+	b, err := s.GetBook(ctx, id)
+	if err != nil {
+		return err
+	}
+	if b == nil {
+		return fmt.Errorf("book not found with id %d", id)
+	}
 	return s.repo.DeleteBook(ctx, id)
 }

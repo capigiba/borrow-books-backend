@@ -48,7 +48,7 @@ func (h *BookHandler) ListBooks(c *gin.Context) {
 	// Convert each Book to BookResponse
 	resp := make([]response.BookResponse, len(books))
 	for i, b := range books {
-		resp[i] = convertToResponse(b)
+		resp[i] = b.ConvertToResponse()
 	}
 
 	c.JSON(http.StatusOK, resp)
@@ -85,7 +85,7 @@ func (h *BookHandler) GetBook(c *gin.Context) {
 		return
 	}
 
-	resp := convertToResponse(*book)
+	resp := book.ConvertToResponse()
 	c.JSON(http.StatusOK, resp)
 }
 
@@ -121,7 +121,7 @@ func (h *BookHandler) CreateBook(c *gin.Context) {
 		return
 	}
 
-	resp := convertToResponse(*book)
+	resp := book.ConvertToResponse()
 	c.JSON(http.StatusCreated, resp)
 }
 
@@ -170,7 +170,7 @@ func (h *BookHandler) UpdateBook(c *gin.Context) {
 		return
 	}
 
-	resp := convertToResponse(*book)
+	resp := book.ConvertToResponse()
 	c.JSON(http.StatusOK, resp)
 }
 
